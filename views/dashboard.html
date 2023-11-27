@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <style>
+    .dashboard-banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(https://www.usatoday.com/gcdn/-mm-/f0b1f9850b6c11d558ebe25c3d3bfe8d675eb15d/c=0-197-2982-1882/local/-/media/2017/04/18/USATODAY/USATODAY/636281326543644155-A03-2SMOG-31.jpg);
+    align-items: center;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    height: 727px;
+    padding: 50px 0;
+    position: relative;
+    }
+
+    .maps {
+    align-items: center;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    padding: 50px 0;
+    position: relative;
+    }
+
+    .form-control {
+    padding: 1rem .75rem !important;
+    line-height: 2.0;
+   }
+   .notif-box{
+    width:300px;
+   }
+    
+    </style>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  </head>
+  <body>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+  
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    
+  </body>
+</html>
+<body>
+    <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center">
+        <a href="/" class="navbar-brand d-flex w-50 mr-auto"><b>AQI</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar3">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+          
+            <ul class="nav navbar-nav ml-auto w-100 justify-content-end" style="display:inline-flex">
+                <li class="nav-item" style="display: flex; align-items: center;">
+                    <a style="text-decoration: none;"><span id="username-display"></span></a>
+                    <a class="nav-link" href="/" id="logout-link" style="margin-left: 10px;">Logout</a>
+                </li>
+            </ul>
+            
+        </div>
+    </nav>
+
+ <!-- Banner -->
+
+  <div class="dashboard-banner">
+    <div class="container">
+    <div class="inner-dashboard">
+    <h1>At-a-glance air quality analytics</h1>
+    
+    
+    <div class="searchbox">
+        <div class="row">
+          <div class="col-md-6">
+            <input type="text" id = "searchbox" class="form-control" placeholder="Search by City..."></div>
+     </div>
+     <div class="col-md-5">
+        <div class="notif-box">
+          <h1 id="cityNameHeader"></h1>
+          <h2 id="aqiValue"></h2>
+          <h3 id="aqiStatus"></h3> 
+        </div>   
+ </div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+     <!-- Banner -->
+
+      <!-- info -->
+      <div class="container">
+        <div class="u_1839831715 dmRespCol small-12 large-6 medium-6" id="1839831715"> 
+        <div class="u_1610664206 dmNewParagraph" data-element-type="paragraph" data-version="5" id="1610664206" style="transition: none 0s ease 0s; text-align: left; display: block;">
+         <h3 style="line-height: 1.5;"><span style="display: unset; font-weight: 500;">Take control of the air in your school, office or commercial building to provide a safe, productive environment and optimise energy usage</span></h3> 
+       </div> 
+        <div class="u_1622056312 dmNewParagraph" data-element-type="paragraph" data-version="5" id="1622056312" style="transition: none 0s ease 0s; text-align: left; display: block;"><p>
+        <span style="display: initial;">We spend 90% of our time indoors.<br>&nbsp;<br> Good air quality makes employees and students happier, healthier and more productive. Studies have shown a 58% reduction in employee sick leave and a 101% improvement in decision making abilities.<br>&nbsp;<br> Understanding what is in the air can help you optimize your ventilation and building maintenance based on need, resulting in energy savings.</span></p><p><br></p></div> 
+       </div> 
+       <div class="maps" style="background-image:url(https://www.breezometer.com/air-quality-map/_nuxt/img/ef70b88.svg);">
+       </div>
+       </div> 
+   
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+  // Retrieve the username from local storage
+  const username = localStorage.getItem('username');
+
+  if (username) {
+    // Display the username in the navbar
+    document.getElementById('username-display').textContent = `Welcome, ${username}!`;
+  } else {
+    // Handle the case where the username is not found in local storage
+    alert('Username not found. Please log in.');
+    // Redirect to the login page or handle accordingly
+    window.location.href = '/login';
+  }
+});
+
+
+const inputElement = document.getElementById('searchbox');
+
+// Add an event listener for the 'Enter' key
+inputElement.addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+       
+      getAQI();
+
+    }
+});
+
+function getAQI() {
+            // value from the input box
+            const cityName = inputElement.value;
+
+            //  API endpoint
+            const apiUrl = `https://api.waqi.info/feed/${cityName}/?token=578d6e0201d355a174ff15ec47088e5a2296093b`;
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                     displayAQIData(data,cityName) 
+                })
+                .catch(error => {
+                    // Handle errors during the fetch
+                    console.error('Error:', error);
+                });
+
+            function displayAQIData(data,cityName) {
+              const cityNameHeader = document.getElementById('cityNameHeader');
+            const aqiValue = document.getElementById('aqiValue');
+            const aqiStatus = document.getElementById('aqiStatus');
+
+            cityNameHeader.textContent = `City: ${cityName}`;
+            aqiValue.textContent = `AQI: ${data.data.aqi}`;
+             // Check AQI value and display status
+             if (data.data.aqi > 100) {
+                aqiStatus.textContent = 'Status: Unhealthy';
+            } else {
+                aqiStatus.textContent = 'Status: Healthy';
+            }
+            }
+        }
+     
+
+   </script>
+           
+</body>
+</html>
+

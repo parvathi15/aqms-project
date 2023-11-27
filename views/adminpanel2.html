@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      overflow: auto;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+      white-space: nowrap;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    @media (max-width: 600px) {
+      th, td {
+        width: 100%;
+        box-sizing: border-box;
+        display: block;
+      }
+
+      /* Optional: You can add styles for small screens to improve readability */
+      th, td {
+        text-align: center;
+      }
+
+      @media only screen and (max-width: 800px) {
+    
+    /* Force table to not be like tables anymore */
+	#no-more-tables table, 
+	#no-more-tables thead, 
+	#no-more-tables tbody, 
+	#no-more-tables th, 
+	#no-more-tables td, 
+	#no-more-tables tr { 
+		display: block; 
+	}
+  #no-more-tables thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+ 
+	#no-more-tables tr { border: 1px solid #ccc; }
+ 
+	#no-more-tables td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+		white-space: normal;
+		text-align:left;
+	}
+
+  #no-more-tables td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		text-align:left;
+		font-weight: bold;
+	}
+ 
+	/*
+	Label the data
+	*/
+	#no-more-tables td:before { content: attr(data-title); }
+
+    }
+
+  }
+  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <title>Form Data with Axios</title>
+</head>
+<body>
+
+  <h1>about us</h1>
+
+  <div class="container">
+    <div class="row">
+     
+        <div id="no-more-tables">
+            <table class="col-md-12 table-bordered table-striped table-condensed cf">
+        		<thead class="cf">
+        			<tr>
+        				<th style="text-align-last:left;">Username</th>
+        				<th style="text-align-last: center;">Email</th>
+						<th style="text-align-last: center;">Actions</th>
+        			</tr>
+        		</thead>
+        		<tbody>
+        		</tbody>
+        	</table>
+        </div>
+    </div>
+ 
+</div>
+  </body>
+</html>
+<script>
+ 
+  
+  // Make a Fetch GET request to fetch data (replace URL with your API endpoint)
+
+  fetch("http://localhost:4000/users")
+.then((data)=> {
+return data.json();
+}).then((completedata)=>{
+    document.querySelector('#no-more-tables tbody').innerHTML = 
+    completedata.map(item => 
+          `<tr>
+            <td>${item.username}</td>
+            <td style="text-align-last: center;">${item.email}</td>
+            <td style="text-align-last: center;">
+          <button onclick="editUser('${item._id}')">edit</button>
+          <button onclick="deleteUser('${item._id}')">delete</button>
+        </td>
+          </tr>`
+          ).join('')
+      })  
+.catch(error => {
+console.error("Error fetching, error");
+});
+
+
+
+async function deleteUser(userId) {
+  console.log("Deleting user with ID:", userId);
+      try {
+        // Make a DELETE request to the server endpoint for user deletion
+        const response = await axios.delete('http://localhost:4000/users/' + userId);
+         if (response.status >= 200 && response.status < 300) {
+          console.log('User with ID ' + userId + ' deleted successfully.');
+          return userId;
+        } else {
+          console.error('Failed to delete user with ID ' + userId + '. Server returned status code ' + response.status + '.');
+          return null;
+        }
+      } catch (error) {
+        console.error('An error occurred while deleting user with ID ' + userId + ':', error);
+        // Handle the error accordingly
+        return null;
+      }
+    }
+
+    async function updateUser(userId, newUsername) {
+      try {
+        const response = await axios.put(`http://localhost:4000/users/${userId}`, { username: newUsername });
+
+        if (response.status >= 200 && response.status < 300) {
+          console.log(`User with ID ${userId} updated successfully.`);
+          return userId;
+        } else {
+          console.error(`Failed to update user with ID ${userId}. Server returned status code ${response.status}.`);
+          return null;
+        }
+      } catch (error) {
+        console.error(`An error occurred while updating user with ID ${userId}:`, error);
+        return null;
+      }
+    }
+
+      </script>
