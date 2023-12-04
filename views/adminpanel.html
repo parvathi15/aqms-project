@@ -22,6 +22,21 @@
       background-color: #f2f2f2;
     }
 
+    .form-control {
+    height: 48px !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+    color: #000;
+    font-size: 16px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border: none !important;
+    padding-left: 20px;
+    padding-right: 20px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
     @media (max-width: 600px) {
       th, td {
         width: 100%;
@@ -101,29 +116,32 @@
 
     .popup {
       background: white;
-      padding: 20px;
-      border-radius: 5px;
-      max-width: 400px;
-      text-align: center;
+    padding: 50px;
+    border-radius: 5px;
+    max-width: 598px;
+    text-align: center;
     }
   </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <title>User Management System</title>
 </head>
 
 <body>
 
-  <h1>User Management System</h1>
+
 
   <div class="container">
     <div class="row">
-
+      <h4>User Management System</h4>
       <div id="no-more-tables">
-        <table class="col-md-12 table-bordered table-striped table-condensed cf">
+        <table class="table">
           <thead class="cf">
             <tr>
+              <th style="text-align-last:left;">#</th>
               <th style="text-align-last:left;">Username</th>
               <th style="text-align-last: center;">Email</th>
               <th style="text-align-last: center;">Actions</th>
@@ -138,126 +156,118 @@
 
   <div class="overlay" id="editOverlay">
     <div class="popup" id="editPopup">
-      <label for="newUsername">New Username:</label>
-      <input type="text" id="newUsername" />
-      <label for="newEmail">New Email:</label>
-      <input type="email" id="newEmail" />
-      <label for="newPassword">New Password:</label>
-      <input type="password" id="newPassword" />
+     
+      <label for="newEmail">Email:</label>
+      <div class="form-group">
+       <input type="text"  class="form-control" id="newEmail" required>
+       </div>
+ 
+     <label for="newUsername">Username:</label>
+     <div class="form-group">
+       <input type="text"  class="form-control" id="newUsername" required>
+     </div>
+ 
+     <label for="newPassword">Password:</label>
+     <div class="form-group">
+       <input type="password"  class="form-control" id="newPassword" required>
+     </div>
       <button onclick="saveEdit()">Save</button>
       <button onclick="cancelEdit()">Cancel</button>
     </div>
   </div>
 
-  <script>
-    // Reusable function for making API requests
-    async function makeRequest(url, method = 'GET', data = null) {
-      try {
-        const response = await axios({
-          method,
-          url,
-          data,
-        });
-        return response.data;
-      } catch (error) {
-        console.error('API request error:', error);
-        throw error;
-      }
-    }
+ 
 
-    // Function to fetch and populate the table
-    async function fetchAndPopulateTable() {
-      try {
-        const data = await makeRequest('http://localhost:4000/users');
-        const tbody = document.querySelector('#no-more-tables tbody');
-        tbody.innerHTML = '';
 
-        data.forEach(item => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = `<td>${item.username}</td>` +
-            `<td style="text-align-last: center;">${item.email}</td>` +
-            '<td style="text-align-last: center;">' +
-            `<button onclick="editUser('${item._id}')">edit</button>` +
-            `<button onclick="deleteUser('${item._id}')">delete</button>` +
-            '</td>';
-          tbody.appendChild(tr);
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    }
 
-    // Function to delete a user
-    async function deleteUser(userId) {
-      console.log("Deleting user with ID:", userId);
-      try {
-        await makeRequest(`http://localhost:4000/users/${userId}`, 'DELETE');
-        console.log('User deleted successfully.');
-        fetchAndPopulateTable(); // Refresh the table after deletion
-      } catch (error) {
-        console.error('Error deleting user:', error);
-      }
-    }
+<script>
+ 
+  
+ async function fetchAndPopulateTable() {
+  try {
+    const response = await axios.get('http://localhost:4000/users');
+    const data = response.data;
+    const tbody = document.querySelector('#no-more-tables tbody');
+    tbody.innerHTML = '';
+    let counter = 1;
+    data.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${counter}</td>` +
+      `<td style="text-align-last: center;">${item.username}</td>` +
+        `<td style="text-align-last: center;">${item.email}</td>` +
+        '<td style="text-align-last: center;">' +
+        `<button class="btn btn-success" onclick="editUser('${item._id}')">edit</button>` +
+        `<button class="btn btn-danger" onclick="deleteUser('${item._id}')">delete</button>` +
+        '</td>';
+      tbody.appendChild(tr);
+      counter++;
+    });
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
 
-    // Function to update a user
-    async function updateUser(userId, userData) {
-      try {
-        await makeRequest(`http://localhost:4000/users/${userId}`, 'PUT', userData);
-        console.log(`User with ID ${userId} updated successfully.`);
-        fetchAndPopulateTable(); // Refresh the table after update
-      } catch (error) {
-        console.error('Error updating user:', error);
-      }
-    }
+// Function to delete a user
+async function deleteUser(userId) {
+  console.log("Deleting user with ID:", userId);
+  try {
+    await axios.delete(`http://localhost:4000/users/${userId}`);
+    console.log('User deleted successfully.');
+    fetchAndPopulateTable(); // Refresh the table after deletion
+  } catch (error) {
+    console.error('Error deleting user:', error);
+  }
+}
 
-    // Function to edit a user
-    function editUser(userId) {
-      console.log('Editing user with ID:', userId);
+let currentUserId;
 
-      // Show the edit popup
-      document.getElementById('editOverlay').style.display = 'flex';
+// Function to edit a user
+function editUser(userId) {
+  console.log('Editing user with ID:', userId);
+  // Store the userId in the variable
+  currentUserId = userId;
+document.getElementById('editOverlay').style.display = 'flex';
+axios.get(`http://localhost:4000/users/${userId}`)
+    .then(userData => {
+      // Pass userId and user data to saveEdit function
+      saveEdit(userData.data);
+      document.getElementById('newUsername').value = userData.data.username;
+      document.getElementById('newEmail').value = userData.data.email;
+      document.getElementById('newPassword').value = userData.data.password;
+    });
+}
 
-      // Fetch the user data for the specified userId
-      makeRequest(`http://localhost:4000/users/${userId}`)
-        .then(userData => {
-          console.log('Fetched user data:', userData);
+async function saveEdit(userData) {
+  console.log(userData);
+  const newUsername = document.getElementById('newUsername').value;
+  const newEmail = document.getElementById('newEmail').value;
+  const newPassword = document.getElementById('newPassword').value;
 
-          // Populate the input fields with the current user data
-          document.getElementById('newUsername').value = userData.username;
-          document.getElementById('newEmail').value = userData.email;
-          document.getElementById('newPassword').value = ''; // Clear password for security reasons
+  const updatedUserData = {
+    username: newUsername,
+    email: newEmail,
+    password: newPassword
+  };
 
-          // Define a function to save the edit with the updated user data
-          window.saveEdit = async function () {
-            console.log('Saving edit for user with ID:', userId);
+  axios.put(`http://localhost:4000/users/update/${currentUserId}`, updatedUserData)
+  .then(response => {
+    console.log('User updated successfully:', response.data);
+    // Optionally, you can fetch and repopulate the table after the update
+    fetchAndPopulateTable();
+  })
+  .catch(error => {
+    console.error('Error updating user:', error);
+    // Handle error scenarios here
+  });
+ 
+}
 
-            const newUsername = document.getElementById('newUsername').value;
-            const newEmail = document.getElementById('newEmail').value;
-            const newPassword = document.getElementById('newPassword').value;
-
-            if (newUsername.trim() !== '' && newEmail.trim() !== '') {
-              await updateUser(userId, { username: newUsername, email: newEmail, password: newPassword });
-              // Close the edit popup
-              cancelEdit();
-            } else {
-              alert('Username and Email cannot be empty.');
-            }
-          };
-        })
-        .catch(error => {
-          console.error('Error fetching user data for edit:', error);
-        });
-    }
-
-    // Function to cancel the edit operation
-    function cancelEdit() {
+function cancelEdit() {
       // Hide the edit popup
       document.getElementById('editOverlay').style.display = 'none';
     }
 
-    // Initial fetch and populate table
-    fetchAndPopulateTable();
-  </script>
-</body>
+  fetchAndPopulateTable();
 
-</html>
+
+      </script>
