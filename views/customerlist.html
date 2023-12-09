@@ -120,12 +120,47 @@
     color: white;
 }
 
+.purple-overlay1 h4{
+  font-size:40px;
+  font-weight: 380;
+}
+
     .popup {
       background: white;
     padding: 50px;
     border-radius: 5px;
-    max-width: 598px;
+    width: 598px;
     text-align: center;
+    }
+
+    label {
+    display: flex !important;
+    font-weight: 600;
+}
+.btn-success {
+      color: #fff !important;
+    background-color: #8d448b !important;
+    border-color: #8d448b !important;
+    }
+
+    .btn-save {
+      display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #fff !important;
+    background-color: #8d448b !important;
+    border-color: #8d448b !important;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
     }
   </style>
   <meta charset="UTF-8">
@@ -148,9 +183,9 @@
     <form method="POST" action="#" class="mt-1">
      <div class="row mt-3">
      <div class="col-md-10 mt-3">
-      <input class="form-control " name="search" type="text" style="height:60px;" placeholder="Search for User"><i class="fa fa-search form-control-feedback" style="position: absolute;
+      <input class="form-control " name="search" id = "searchInput" type="text" style="height:60px;" placeholder="Search for User"><i class="fa fa-search form-control-feedback" style="position: absolute;
  position: absolute;
-top: 19%;
+top: 22%;
 right: 30%;
 transform: translateY(-50%);
 font-size: 22px;
@@ -195,8 +230,8 @@ color: #ccc;"></i>
      <div class="form-group">
        <input type="password"  class="form-control" id="newPassword" required>
      </div>
-      <button onclick="saveEdit()">Save</button>
-      <button onclick="cancelEdit()">Cancel</button>
+     <button onclick="saveEdit()" class = "btn btn-save mt-4 mb-2">Save</button>
+     <button onclick="cancelEdit()" class = "btn btn-danger mt-4 mb-2">Cancel</button>
     </div>
   </div>
 
@@ -206,32 +241,47 @@ color: #ccc;"></i>
 
 <script>
  
-  
  async function fetchAndPopulateTable() {
-  try {
-    const response = await axios.get('http://localhost:4000/users');
-    const data = response.data;
-    const tbody = document.querySelector('#no-more-tables tbody');
-    tbody.innerHTML = '';
-    let counter = 1;
-    data.forEach(item => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `<td>${counter}</td>` +
-      `<td style="text-align-last: center;">${item.username}</td>` +
-        `<td style="text-align-last: center;">${item.email}</td>` +
-        '<td style="text-align-last: center;">' +
-        `<button class="btn btn-success" onclick="editUser('${item._id}')">edit</button>` +
-        `<button class="btn btn-danger" onclick="deleteUser('${item._id}')">delete</button>` +
-        '</td>';
-      tbody.appendChild(tr);
-      counter++;
+      try {
+        const response = await axios.get('http://localhost:4000/users');
+        const data = response.data;
+        updateTable(data);
+     // Add an event listener to the search input field
+    document.getElementById("searchInput").addEventListener('keyup', function () {
+      const input = document.getElementById('searchInput');
+      const searchTerm = input.value.toLowerCase();
+      console.log(searchTerm)
+      const filteredData = data.filter(item => {
+        return item.username.toLowerCase().includes(searchTerm) || item.email.toLowerCase().includes(searchTerm);
+      });
+      updateTable(filteredData);
     });
-  } catch (error) {
-    console.error('Error fetching data:', error);
-  }
-}
+  }   catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
 
-// Function to delete a user
+    // Function to update the table with filtered data
+    function updateTable(filteredData) {
+      const tbody = document.querySelector('#no-more-tables tbody');
+      tbody.innerHTML = '';
+
+      let counter = 1;
+      filteredData.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${counter}</td>` +
+          `<td style="text-align-last: center;">${item.username}</td>` +
+          `<td style="text-align-last: center;">${item.email}</td>` +
+          '<td style="text-align-last: center;">' +
+          `<button class="btn btn-success" onclick="editUser('${item._id}')">edit</button>` +
+          `<button class="btn btn-danger" onclick="deleteUser('${item._id}')">delete</button>` +
+          '</td>';
+        tbody.appendChild(tr);
+        counter++;
+      });
+    }
+
+    // Function to delete a user
 async function deleteUser(userId) {
   console.log("Deleting user with ID:", userId);
   try {
@@ -290,6 +340,7 @@ function cancelEdit() {
       // Hide the edit popup
       document.getElementById('editOverlay').style.display = 'none';
     }
+
 
   fetchAndPopulateTable();
 

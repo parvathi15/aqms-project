@@ -19,6 +19,23 @@
       font-size: 19px;
     }
 
+    .purple-overlay {
+    background: #5d285c !important;
+    padding: 80px;
+    color: white;
+}
+
+.purple-overlay h1{
+    font-size:60px;
+    font-weight: 380;
+}
+
+.purple-overlay p{
+margin: 0 0 1em;
+    line-height: 1.5;
+    font-size: 18px;
+    font-weight:600
+}
     .maps {
     align-items: center;
     background-position: top;
@@ -59,7 +76,7 @@
    }
 
    .dashboard-banner h1 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     line-height: 2.5rem;
     font-weight: 450;
    }
@@ -90,6 +107,11 @@
     color: #333;
     font-weight: 380;
     font-size: 20px;
+   }
+   .recom-box h1 {
+    color: #333;
+    font-weight: 380;
+  
    }
    #aqiStatus {
     font-size: 2.2rem;
@@ -148,7 +170,7 @@
     <div class="container">
     <div class="inner-dashboard">
     <h1 class = "text-center" style = "color:#8d448b;">Air Quality Index By City</h1>
-    <p class="text-gray-500 font-inter text-base px-2 md:text-2xl md:max-w-lg text-center" data-v-229ccfeb="">
+    <p class="text-gray-500 font-inter mt-3 text-base px-2 md:text-2xl md:max-w-lg text-center" data-v-229ccfeb="">
       Explore real-time and forecast street-level air quality information around the world.
     </p>
     
@@ -163,6 +185,19 @@
             font-size: 22px;
             color: #ccc;"></i>
           </div>
+         
+          <div style="position: relative; width: 300px;"> <!-- Adjust the width as needed -->
+            <i class="fa fa-search form-control-feedback" style="position: absolute;
+               top: 50%;
+               left: 10px; 
+               transform: translateY(-50%);
+               font-size: 22px;
+               color: #ccc;"></i>
+            <input class="form-control" name="search" type="text" style="height:54px; padding-left: 40px;" placeholder="Search for City">
+          </div>
+          
+          
+          
      </div>
     </div>
     </div>
@@ -187,11 +222,11 @@
 
     <div class = "recom-box mb-4">
       <div class = "row">
-      <div class="col-md-7" style = "background-color: #5d285c;">
-      <p id = "recom"></p>
+      <div class="col-md-7">
+      <p id = "recom" class = "mb-3"></p>
     </div>
-    <div class="col-md-3 ml-5" style = "background-color: blue;">
-      <h4 id = "pm"></h4>
+    <div class="col-md-3 ml-5 mr-5 mt-3">
+      <h1 id = "pm"></h1>
     </div>
     </div>
   </div>
@@ -204,11 +239,41 @@
       </div> 
 
     <div class="mt-5" id="about"> 
-      <div class="about">
-       <h3>Learn more about IAQ, why it's important, and how to make improvements</h3> 
+      <div class = "row">
+        <div class="col-md-7 mt-3">
+     <h3>Learn more about IAQ, why it's important, and how to make improvements</h3> 
+   
+    <div class="paragraph">
+      <p class = "text-gray-500 mt-4">Good air quality makes employees and students happier, healthier and more productive. Studies have shown a 58% reduction in employee sick leave and a 101% improvement in decision making abilities.<br> Understanding what is in the air can help you optimize your ventilation and building maintenance based on need, resulting in energy savings.</p>
+      <a href = "/info">View more</a>
+    </div> 
+   </div> 
+   <div class="col-md-5">
+    <img src = "https://housefresh.com/wp-content/uploads/2023/01/Aranet4-Sensor_App-1024x831.png" height = "400px" width = "auto" alt = "" />
+    </div>
+      </div>
      </div> 
-      <div class="paragraph"><p class = "text-gray-500 mt-4">Good air quality makes employees and students happier, healthier and more productive. Studies have shown a 58% reduction in employee sick leave and a 101% improvement in decision making abilities.<br> Understanding what is in the air can help you optimize your ventilation and building maintenance based on need, resulting in energy savings.</p></div> 
-     </div> 
+
+    <!-- end of container -->
+
+      </div>
+
+      <div class="purple-overlay mt-5">
+        <div class="quote container centered">
+          <div class = "row">
+            <div class="col-md-4 text-center">
+              <h1>253,000</h1>
+              <p>from chronic exposure to fine particulate matter</p>
+            </div>
+            <div class="col-md-4 text-center">
+              <h1>52,000</h1>
+              <p>from chronic nitrogen dioxide exposure</p>
+            </div>
+            <div class="col-md-4 text-center">
+              <h1>22,000</h1>
+              <p>from acute ozone exposure</p>
+            </div>
+        </div>
       </div>
     
    
@@ -295,12 +360,16 @@ function getAQI() {
               const recom = document.getElementById('recom');
               const pm = document.getElementById('pm');
               const pm25 = data.data.forecast.daily.pm25[0].avg
-              pm.textContent = pm25;
-              console.log(pm25);
+              
+              if (data.data.aqi > 0) {
+                recom.style.border = '1px solid #eeee';
+                pm.innerHTML = `Pm 2.5:<b style="color: #5d285c;">${data.data.forecast.daily.pm25[0].avg}</b>`;
+
+              }
               if (data.data.aqi > 150) {
-                recom.textContent = "Avoid going outdoors";
-            } else{
-              recom.textContent = "You can go out";
+                recom.innerHTML = "<h3 style='color: #333;font-weight: 380;'>Recommendations</h3><br/>Avoid going outdoors.<br/>If you must go outdoors, consider wearing a mask.<br/>Keep your air indoors healthy by keeping the windows and doors closed. <br/>Sensitive groups should avoid prolonged outdoor exertion, and the general public should reduce outdoor activities.";
+              } else{
+              recom.innerHTML = "<h3 style='color: #333;font-weight: 380;'>Recommendations</h3><br/>Enjoy outdoor activities and fresh air.<br/>Open windows and let in fresh air.<br/>It's a great time for exercise and outdoor events.";
             }
         }
       }

@@ -8,6 +8,7 @@ const mongoose = require("mongoose"); //connecting to mongodb database
 //environment variables in .env file
 require("dotenv").config();
 let User = require("./models/user.model.js");
+let aqiData = require("./models/aqi.model.js");
 //express server
 const app = express();
 const port = process.env.PORT || 4000;
@@ -15,6 +16,8 @@ const port = process.env.PORT || 4000;
 //cors middleware for sending and receiving json
 app.use(cors());
 app.use(express.json());
+// Serve static files from the 'views' directory
+app.use('/views', express.static('views'));
 
 //connection to mongodb atlas
 
@@ -63,8 +66,15 @@ app.get('/register',(req,res) => {
 app.get('/home',(req,res) => {
   res.sendFile(__dirname + '/views/home.html');
 })
-app.get('/panel',(req,res) => {
-  res.sendFile(__dirname + '/views/panel.html');
+
+app.get('/customers',(req,res) => {
+  res.sendFile(__dirname + '/views/customerlist.html');
+})
+app.get('/info',(req,res) => {
+  res.sendFile(__dirname + '/views/info.html');
+})
+app.get('/aqilist',(req,res) => {
+  res.sendFile(__dirname + '/views/aqilist.html');
 })
 app.get('/admin',(req,res) => {
   res.sendFile(__dirname + '/views/adminpanel.html');
@@ -76,8 +86,9 @@ app.get('/dashboard',(req,res) => {
 // ****************
 //connection to routes
 const usersRouter = require("./routes/users.js");
+const aqiDataRouter = require("./routes/aqi.js");
 app.use("/users", usersRouter);
-
+app.use("/aqiData", aqiDataRouter);
 
 
 // ****************

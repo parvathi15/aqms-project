@@ -12,7 +12,12 @@
 .ftco-section {
     padding: 7em 0;
 }
-
+.error {
+   color: #d04646;
+    background: #fff0f3;
+    padding: 5px;
+    border-radius: 6px;
+}
 .login-wrap .icon {
     width: 80px;
     height: 80px;
@@ -21,6 +26,16 @@
     font-size: 30px;
     margin: 0 auto;
     margin-bottom: 10px;
+}
+
+.register-link {
+  color: #8d448b;
+  text-decoration: none;
+  font-weight:400;
+}
+.register-link:hover {
+  color: #8d448b;
+  text-decoration: none;
 }
 
 .form-control {
@@ -97,7 +112,7 @@ position: absolute;
     <div class="d-grid gap-2">
       <button id="login-btn" class="btn btn-primary mt-3 p-3 px-5">Login</button>
       <div class="w-50 text-left mb-3">
-        <a href="#">Don't have account? Sign up</a>
+        <a href = "/register" class = "register-link">Don't have account? Sign up</a>
       </div>
     </div>
     <div id="login-message" class = "mt-5 text-center"></div>
