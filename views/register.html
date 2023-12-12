@@ -7,7 +7,6 @@
     line-height: 1.8;
     font-weight: normal;
     background: #f8f9fd !important;
-    color: gray;
 }
 .ftco-section {
     padding: 7em 0;
@@ -48,14 +47,7 @@
 }
 
 button {
-/*
-position: absolute;
-    top: 20px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    */
-    background: #8d448b !important;
+   background: #8d448b !important;
     border: 1px solid #8d448b !important;
     color: #fff !important;
     font-size: 20px !important;
@@ -85,6 +77,8 @@ position: absolute;
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- Include Axios from a CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 
@@ -127,17 +121,13 @@ position: absolute;
 </div>
   </section>
 
-  <!-- Include Axios from a CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 
   <script>
     function submitForm() {
-      // Get values directly from input fields
       const username = document.getElementById('username').value;
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
-
-      // Prepare data object
       const data = {
         username: username,
         email: email,

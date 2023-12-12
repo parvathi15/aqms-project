@@ -3,7 +3,7 @@
 
 <head>
   <style>
-    /* Your styles here */
+  
     table {
       width: 100%;
       border-collapse: collapse;
@@ -56,13 +56,11 @@
         display: block;
       }
 
-      /* Optional: You can add styles for small screens to improve readability */
       th, td {
         text-align: center;
       }
 
       @media only screen and (max-width: 800px) {
-        /* Force table to not be like tables anymore */
         #no-more-tables table,
         #no-more-tables thead,
         #no-more-tables tbody,
@@ -83,7 +81,7 @@
         }
 
         #no-more-tables td {
-          /* Behave like a "row" */
+        
           border: none;
           border-bottom: 1px solid #eee;
           position: relative;
@@ -93,9 +91,7 @@
         }
 
         #no-more-tables td:before {
-          /* Now like a table header */
-          position: absolute;
-          /* Top/left values mimic padding */
+         position: absolute;
           top: 6px;
           left: 6px;
           width: 45%;
@@ -104,10 +100,6 @@
           text-align: left;
           font-weight: bold;
         }
-
-        /*
-        Label the data
-        */
         #no-more-tables td:before {
           content: attr(data-title);
         }
@@ -284,21 +276,21 @@
         `<td style="text-align-last: center;">${item.status}</td>` +
         `<td style="text-align-last: center;">${item.pm25}</td>` +
         '<td style="text-align-last: center;">' +
-        `<button class="btn btn-success" onclick="editData('${item._id}')">edit</button>` +
-        `<button class="btn btn-danger" onclick="deleteData('${item._id}')">delete</button>` +
+        `<button class="btn btn-success" onclick="editData('${item._id}')"><i class="fa fa-edit"></i></button>` +
+        `<button class="btn btn-danger" onclick="deleteData('${item._id}')"><i class="fa fa-trash mr-5"></i></button>` +
         '</td>';
       tbody.appendChild(tr);
       counter++;
       });
     }
 
-    // Function to delete a user
+    // Function to delete the data
 async function deleteData(userId) {
   console.log("Deleting user with ID:", userId);
   try {
     await axios.delete(`http://localhost:4000/aqiData/${userId}`);
     console.log('Data deleted successfully.');
-    fetchAndPopulateTable(); // Refresh the table after deletion
+    fetchAndPopulateTable(); 
   } catch (error) {
     console.error('Error deleting Data:', error);
   }
@@ -306,16 +298,14 @@ async function deleteData(userId) {
 
 let currentUserId;
 
-// Function to edit a user
+// Function to edit the data
 function editData(userId) {
   console.log('Editing data with ID:', userId);
-  // Store the userId in the variable
   currentUserId = userId;
 document.getElementById('editOverlay').style.display = 'flex';
 axios.get(`http://localhost:4000/aqiData/${userId}`)
     .then(userData => {
       console.log(userData.data);
-      // Pass userId and user data to saveEdit function
       saveEdit(userData.data);
       document.getElementById('newCity').value = userData.data.city;
       document.getElementById('newAQI').value = userData.data.aqi;
@@ -343,17 +333,14 @@ async function saveEdit(userData) {
     const response = await axios.put(`http://localhost:4000/aqiData/update/${currentUserId}`, updatedAqiData);
 
     console.log('Data updated successfully:', response.data);
-    // Optionally, you can fetch and repopulate the table after the update
     fetchAndPopulateTable();
   } catch (error) {
     console.error('Error updating Data:', error);
-    // Handle error scenarios here
   }
 }
 
 
 function cancelEdit() {
-      // Hide the edit popup
       document.getElementById('editOverlay').style.display = 'none';
     }
 

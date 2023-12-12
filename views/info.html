@@ -2,79 +2,323 @@
 <html lang="en">
   <head>
     <style>
-    .info-banner {
+    .dashboard-banner {
       
-      background: url('../views/info-banner.jpg');
+      background: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.2)), url('../views/banner.png');
     align-items: center;
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
     display: flex;
-    height: 880px;
+    height: 100vh;
+    position: relative;
+    }
+    .navbar {
+      background: #5d285c !important;
+      color:white !important;
+      font-size: 19px;
+    }
+
+    .purple-overlay {
+    background: #5d285c !important;
+    padding: 80px;
+    color: white;
+}
+
+.purple-overlay h1{
+    font-size:60px;
+    font-weight: 380;
+}
+
+.purple-overlay p{
+margin: 0 0 1em;
+    line-height: 1.5;
+    font-size: 18px;
+    font-weight:600
+}
+    .maps {
+    align-items: center;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    padding: 50px 0;
     position: relative;
     }
 
-    .jumbotron {
-    background-color: rgba(0,0,0,.5);
-    box-shadow: 0 0 0 8px rgba(255,255,255,.75);
-    color: #fff;
+#searchbox {
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.5);
+    height: 70px;
+    font-size: 18px !important;
 }
 
-.jumbo-para {
-  font-size: 1.5em;
-  line-height: 1.6;
-}
+    .form-control {
+    padding: 1rem .75rem !important;
+    line-height: 2.0;
+ 
+   }
 
-.AQI-imp h2{
-  font-size:40px;
-  font-weight: 380;
-}
-
-.text-gray-500 {
+   .text-gray-500 {
     --tw-text-opacity: 1;
-    color: rgb(107 114 128 / var(--tw-text-opacity));
+    color: rgb(107 114 128 / var(--tw-text-opacity));;
     font-size: 1.2rem;
     font-weight: 400;
 }
-body {
-    font-family: "Lato", Arial, sans-serif;
-    font-size: 16px;
-    line-height: 1.8;
-    font-weight: normal;
-    background: #f8f9fd !important;
-    color: gray;
-  }
-  </style>
+
+.search-box {
+      text-align: center;
+      margin: 20px auto; 
+      box-shadow: 10px 10px 10px 10px #ccc !important;
+    }
+   .notif-box{
+    width:300px;
+   }
+
+   .dashboard-banner h1 {
+    font-size: 3.5rem;
+    line-height: 2.5rem;
+    font-weight: 450;
+   }
+
+   #cityNameHeader{
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    font-weight: 450;
+   }
+
+   #about h3 {
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    font-weight: 450; 
+   }
+
+   #aqi-metre h3 {
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    font-weight: 450; 
+   }
+
+   .text-white {
+    color:white;
+   }
+
+   #aqiValue {
+    color: #333;
+    font-weight: 500;
+    font-size: 28px;
+   }
+   .recom-box p {
+    font-weight: 380;
+    font-size: 20px;
+    line-height: 1.4;
+   }
+
+   .recom-box h3 {
+    color: #5d285c;
+    font-weight: 380;
+    font-size: 28px;
+   }
+   #aqiStatus {
+    font-size: 2.2rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+    margin-right: 20px;
+   }
+
+   .mocktest-banner {
+    margin-top: 65px !important;
+    margin: 15px 0 0;
+    padding: 6px 0px;
+}
+    
+    </style>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   </head>
   <body>
-    <div class="info-banner">
-      <div class="container">
-        <div class="jumbotron">
-          <p class="display-2">Air Pollution and Premature Deaths.</p>
-         <hr class="my-4">
-         <p class="jumbo-para">Most city dwellers are exposed to unsafe levels of air pollution. Improving air quality to match World Health Organization (WHO)-recommended levels could prevent more than half of premature deaths caused by exposure to fine particulate matter.</p>
-       </div>
-        
-            </div>
-          </div>
-
-          <div class = "container AQI-imp mt-2 mb-2">
-            <h2>Why AQI is Important</h2>
-            <p class = "text-gray-500">Air Quality Index (AQI) is an indicator developed by government agencies to communicate to the public how polluted the air currently is or how polluted it is forecast to become.AQI helps in analyzing the change in air quality (improvement or degradation) and informs the public about environmental conditions.
-               It is especially useful for people suffering from illnesses aggravated or caused by air pollution. AQI is a vital tool in providing information about the quality of outdoor air and promoting public health by raising awareness about the potential risks associated with air pollution. 
-               It helps in understanding the impact of various pollutants on both human health and the environment. When the AQI is high, governmental bodies generally encourage people to reduce physical activity outdoors, or even avoid going out altogether. 
-               When wildfires result in a high AQI, the use of masks such as N95 respirators outdoors and air purifiers incorporating HEPA filters indoors are also encouraged.</p>
-          </div>
-     
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    
   </body>
 </html>
+<body>
+    <nav class="navbar navbar-light navbar-expand-md bg-faded justify-content-center">
+        <a href="/" class="navbar-brand text-white  w-50 mr-auto"><b>AQI</b></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsingNavbar3">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse w-100" id="collapsingNavbar3">
+          
+            <ul class="nav navbar-nav ml-auto w-100 justify-content-end" style="display:inline-flex">
+                <li class="nav-item" style="display: flex; align-items: center;">
+                    <a style="text-decoration: none;"><span id="username-display"></span></a>
+                    <a class="nav-link" href="/" id="logout-link" style="margin-left: 10px;color:#ccc;"><b>Logout</b></a>
+                </li>
+            </ul>
+            
+        </div>
+    </nav>
+
+ <!-- Banner -->
+
+  <div class="dashboard-banner">
+    <div class="container">
+    <div class="inner-dashboard">
+    <h1 class = "text-center" style = "color:#8d448b;">Air Quality Index By City</h1>
+    <p class="text-gray-500 font-inter mt-3 text-base px-2 md:text-2xl md:max-w-lg text-center" data-v-229ccfeb="">
+      Explore real-time and forecast street-level air quality information around the world.
+    </p>
+    
+    <div class="searchbox my-4"> 
+      <div class="row">
+        <div class="col-md-8 mx-auto">
+            <input type="text" id = "searchbox" class="form-control" placeholder="Search by City...">
+            <i class="fa fa-search form-control-feedback" style="    position: absolute;
+            top: 55%;
+           right: 29%;
+            transform: translateY(-50%);
+            font-size: 22px;
+            color: #ccc;"></i>
+          </div>
+          </div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+     <!-- Banner -->
+
+      <!-- info -->
+      <div class="container">
+    <div class="mocktest-banner pl-4 ml-2 mb-5">
+      <h3 id="aqiStatus" class="mt-3 mr-5" style="float:right" ;></h3>
+      <h2 id="cityNameHeader" style = "text-transform: capitalize;"></h2>
+    <div class="notif-box">
+      <p id="aqiValue"></p>
+     
+      <h3 id ="aqiStatus"></h3> 
+      
+    </div> 
+    </div>
+
+    <div class = "recom-box mb-4">
+      <div class = "row">
+      <div class="col-md-7">
+      <p id = "recom" class = "mb-3"></p>
+    </div>
+    <div class="col-md-3 ml-5 mr-5 mt-3">
+      <h1 id = "pm"></h1>
+    </div>
+    </div>
+  </div>
+
+   <!-- end of container -->
+
+      </div>
+
+
+    
+   
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+  // getting  username from local storage
+  const username = localStorage.getItem('username');
+
+  if (username) {
+    document.getElementById('username-display').textContent = `Welcome, ${username}!`;
+  } else {
+    // Handle the case where the username is not found in local storage
+    alert('Username not found. Please log in.');
+    // Redirect to the login page or handle accordingly
+    window.location.href = '/login';
+  }
+});
+
+
+const inputElement = document.getElementById('searchbox');
+inputElement.addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+       getAQI();
+}
+});
+
+function getAQI() {
+            const cityName = inputElement.value;
+            const apiUrl = `https://api.waqi.info/feed/${cityName}/?token=578d6e0201d355a174ff15ec47088e5a2296093b`;
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                     displayAQIData(data,cityName) 
+                     displaysuggestions(data,cityName)
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            function displayAQIData(data,cityName) {
+              const cityNameHeader = document.getElementById('cityNameHeader');
+              const aqiHeading = document.getElementById('aqi-heading');
+            const aqiValue = document.getElementById('aqiValue');
+            const aqiStatus = document.getElementById('aqiStatus');
+            const mocktestBanner = document.querySelector('.mocktest-banner');
+            cityNameHeader.textContent = cityName;
+            aqiValue.textContent = `Aqi: ${data.data.aqi}`;
+             if (data.data.aqi > 150) {
+                aqiStatus.textContent = 'Unhealthy';
+                mocktestBanner.style.backgroundColor = '#eb94943d';
+                cityNameHeader.style.color = '#b0313d';  
+                aqiStatus.style.color = '#b0313d';
+            } else if (data.data.aqi <=  100){
+                aqiStatus.textContent = 'Healthy';
+                mocktestBanner.style.backgroundColor = '#deede6';
+                cityNameHeader.style.color = '#0e4f31';
+                aqiStatus.style.color = '#0e4f31';
+            } else if (data.data.aqi > 100 && data.data.aqi < 150){
+                 aqiStatus.textContent = 'Moderate';
+                mocktestBanner.style.backgroundColor = '#ffe5974d';
+                cityNameHeader.style.color = '#d2a008';
+                aqiStatus.style.color = '#d2a008';
+            } else {
+              aqiStatus.textContent = 'Invalid';
+                mocktestBanner.style.backgroundColor = '#f3f6f7';
+                cityNameHeader.style.color = 'Invalid';
+                aqiStatus.style.color = 'Invalid';
+            }
+            }
+
+            function displaysuggestions(data) {
+              const recom = document.getElementById('recom');
+              const pm = document.getElementById('pm');
+              const pm25 = data.data.forecast.daily.pm25[0].avg
+              
+              if (data.data.aqi > 0) {
+                recom.style.border = '1px solid #eeee';
+                pm.innerHTML = `Pm 2.5:<b style="color: #5d285c;">${data.data.forecast.daily.pm25[0].avg}</b>`;
+
+              }
+              if (data.data.aqi > 200) {
+                recom.innerHTML = "<h2 style='color: #5d285c;font-weight: 380;'>Recommendations</h2><br/>Avoid going outdoors.<br/>If you must go outdoors, consider wearing a mask.<br/>Keep your air indoors healthy by keeping the windows and doors closed. <br/>Sensitive groups should avoid prolonged outdoor exertion, and the general public should reduce outdoor activities.";
+              } else if (data.data.aqi > 130) {
+              recom.innerHTML = "<h2 style='color: #5d285c;font-weight: 380;'>Recommendations</h2><br/>Consider reducing prolonged breathing.<br/>Watch for symptoms such as coughing or shortness of breath.<br/>Its a good day to be active outside.";
+             } else {
+              recom.innerHTML = "<h2 style='color: #5d285c;font-weight: 380;'>Recommendations</h2><br/>Enjoy outdoor activities and fresh air.<br/>Open windows and let in fresh air.<br/>It's a great time for exercise and outdoor events.";
+            }
+        }
+      }
+
+   </script>
+           
+</body>
+</html>
+
