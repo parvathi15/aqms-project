@@ -1,0 +1,119 @@
+const express = require("express");
+const mongoose = require("mongoose");
+const session = require("express-session");
+const bodyParser = require("body-parser");
+require("dotenv").config(); // Load environment variables from .env file
+const Visitor = require("./models/visitor");
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+// Connect to MongoDB using Atlas URI from environment variables
+mongoose.connect(process.env.ATLAS_URI, { useNewUrlParser: true,
+useUnifiedTopology: true });
+const connection = mongoose.connection;
+connection.once("open", () => {
+  console.log("MongoDB database connection established successfully");
+});
+
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("views"));
+app.set("view engine", "ejs");
+
+// Express session setup
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "default_secret",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// Routes
+app.get("/", (req, res) => {
+  res.render("landing");
+});
+
+
+  app.get("/register", (req, res) => {
+    res.render("register", { err: req.session.error });
+  });
+
+
+app.post("/register", async (req, res) => {
+  const { username, email, password } = req.body;
+
+  try {
+    const existingVisitor = await Visitor.findOne({ email });
+
+    if (existingVisitor) {
+      req.session.error = "User already exists";
+      return res.redirect("/register");
+    }
+
+    const newVisitor = new Visitor({
+      username,
+      email,
+      password,
+    });
+
+    await newVisitor.save();
+    req.session.isAuth = true;
+    req.session.username = newVisitor.username;
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Error registering user:", error);
+    req.session.error = "Error registering user";
+    res.redirect("/register");
+  }
+});
+
+app.get("/login", (req, res) => {
+  res.render("login", { err: req.session.error });
+});
+
+app.post("/login", async (req, res) => {
+
+  const { email, password } = req.body;
+
+  try {
+    const existingVisitor = await Visitor.findOne({ email });
+
+    if (!existingVisitor || existingVisitor.password !== password) {
+      req.session.error = "Invalid Credentials";
+      return res.redirect("/login");
+    }
+
+    req.session.isAuth = true;
+    req.session.username = existingVisitor.username;
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Error during login:", error);
+    req.session.error = "Error during login";
+    res.redirect("/login");
+  }
+});
+
+app.get("/dashboard", (req, res) => {
+  if (req.session.isAuth) {
+    res.render("dashboard", { username: req.session.username });
+  } else {
+    req.session.error = "You have to login first";
+    res.redirect("/login");
+  }
+});
+
+app.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Logout failed:', err);
+      res.status(500).json({ error: 'Logout failed' });
+    } else {
+      res.json({ success: true });
+    }
+  });
+});
+
+app.listen(port, () => console.log(`Server running on port:
+http://localhost:${port}`));
