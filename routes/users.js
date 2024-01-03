@@ -22,7 +22,7 @@ router.route("/add").post((req, res) => {
 });
 
 router.route('/update/:id').put((req, res) => {
-
+console.log(req);
   User.findById(req.params.id)
  .then(user => {
   user.username = req.body.username,

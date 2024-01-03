@@ -4,7 +4,7 @@
     <style>
     .dashboard-banner {
       
-      background: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.2)), url('../views/banner.png');
+      background: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.2)), url('./banner.png');
     align-items: center;
     background-position: top;
     background-repeat: no-repeat;
@@ -160,7 +160,7 @@ margin: 0 0 1em;
             <ul class="nav navbar-nav ml-auto w-100 justify-content-end" style="display:inline-flex">
                 <li class="nav-item" style="display: flex; align-items: center;">
                     <a style="text-decoration: none;"><span id="username-display"></span></a>
-                    <a class="nav-link" href="/" id="logout-link" style="margin-left: 10px;color:#ccc;"><b>Logout</b></a>
+                    <a class="nav-link" href="/" id="logout-link" style="margin-left: 10px;color:#ccc;" onclick="logout()"><b>Logout</b></a>
                 </li>
             </ul>
             
@@ -230,19 +230,14 @@ margin: 0 0 1em;
    
 
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
-  // getting  username from local storage
-  const username = localStorage.getItem('username');
 
-  if (username) {
-    document.getElementById('username-display').textContent = `Welcome, ${username}!`;
-  } else {
-    // Handle the case where the username is not found in local storage
-    alert('Username not found. Please log in.');
-    // Redirect to the login page or handle accordingly
-    window.location.href = '/login';
-  }
-});
+
+        document.addEventListener('DOMContentLoaded', function () {
+          const username = '<%= username %>'; // Use your template engine syntax
+          console.log(username);
+          document.getElementById('username-display').textContent = `Welcome, ${username}!`;
+        });
+      
 
 
 const inputElement = document.getElementById('searchbox');
@@ -317,6 +312,30 @@ function getAQI() {
         }
       }
 
+
+      async function logout() {
+    try {
+      const response = await fetch('/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        console.log('Logout successful');
+        // You can redirect the user or perform any other action after successful logout
+      } else {
+        console.error('Logout failed');
+        // Handle logout failure, show an error message, etc.
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Handle other errors during logout
+    }
+  }
    </script>
            
 </body>
