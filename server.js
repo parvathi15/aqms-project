@@ -99,7 +99,7 @@ app.post("/login", async (req, res) => {
     if (existingUser && existingUser.username === "admin") {
   
       req.session.isAuth = true;
-      req.session.username = ""; 
+      req.session.username = "admin"; 
   
       return res.redirect("/adminpanel");
     }
