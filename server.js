@@ -47,10 +47,8 @@ app.get("/", (req, res) => {
     // Check if the user is authenticated (session exists)
     if (req.session.username) {
       const username = req.session.username;
-      // Render the dashboard with the username
       res.render('info', { username });
     } else {
-      // Redirect to the login page if the user is not authenticated
       res.redirect('/login');
     }
   });
@@ -63,7 +61,7 @@ app.get("/", (req, res) => {
       const existingUser = await User.findOne({ email });
   
       if (existingUser) {
-        req.session.error = "User already exists";
+        req.session.error = "Email already exists";
         return res.redirect("/register");
       }
   
@@ -97,24 +95,20 @@ app.post("/login", async (req, res) => {
   try {
     const existingUser = await User.findOne({ username });
 
-    // Check if the email is "admin" to redirect to adminpanel
-    if (existingUser && existingUser.username === "admin") {
-      // Set session variables for authentication
-      req.session.isAuth = true;
-      req.session.username = "admin"; // You can set a specific username for the admin if needed
 
-      // Redirect to the adminpanel
+    if (existingUser && existingUser.username === "admin") {
+  
+      req.session.isAuth = true;
+      req.session.username = ""; 
+  
       return res.redirect("/adminpanel");
     }
-
-    // Check if a visitor with the provided email and password exists
     if (!existingUser) {
-      req.session.error = "Enter Username"; // Assuming the user should have a username
+      req.session.error = "Enter Username"; 
       return res.redirect("/login");
     }
 
     if (existingUser.password !== password) {
-      // Set an error message in the session and redirect to the login page
       req.session.error = "Password Incorrect";
       return res.redirect("/login");
     }
@@ -123,10 +117,9 @@ app.post("/login", async (req, res) => {
     req.session.isAuth = true;
     req.session.username = existingUser.username;
 
-    // Redirect to the dashboard
+
     res.redirect("/dashboard");
   } catch (error) {
-    // Handle errors
     console.error("Error during login:", error);
     req.session.error = "Error during login";
     res.redirect("/login");
@@ -152,12 +145,9 @@ app.get("/dashboard", (req, res) => {
 
 app.get("/adminpanel", (req, res) => {
   console.log("req.session.isAuth:", req.session.isAuth);
-  // Check if the user is authenticated and has the username "admin"
   if (req.session.isAuth && req.session.username === "admin") {
-    // Render the adminpanel.ejs page and pass any necessary data
     res.render("adminpanel", { username: req.session.username });
   } else {
-    // If not authenticated or not an admin, redirect to login page
     req.session.error = "You have to login as admin";
     res.redirect("/login");
   }
@@ -165,12 +155,9 @@ app.get("/adminpanel", (req, res) => {
 
 app.get("/customerlist", (req, res) => {
   console.log("req.session.isAuth:", req.session.isAuth);
-  // Check if the user is authenticated and has the username "admin"
   if (req.session.isAuth && req.session.username === "admin") {
-    // Render the adminpanel.ejs page and pass any necessary data
     res.render("customerlist", { username: req.session.username });
   } else {
-    // If not authenticated or not an admin, redirect to login page
     req.session.error = "You have to login as admin";
     res.redirect("/login");
   }
@@ -181,10 +168,8 @@ app.get("/aqilist", (req, res) => {
 
   // Check if the user is authenticated and has the username "admin"
   if (req.session.isAuth && req.session.username === "admin") {
-    // Render the adminpanel.ejs page and pass any necessary data
     res.render("aqilist", { username: req.session.username });
   } else {
-    // If not authenticated or not an admin, redirect to login page
     req.session.error = "You have to login as admin";
     res.redirect("/login");
   }
@@ -201,7 +186,6 @@ app.post('/logout', (req, res) => {
       console.error('Logout failed:', err);
       res.status(500).json({ error: 'Logout failed' });
     } else {
-      // Clear all session variables
       req.session = null;
       console.log('Session ID after logout:', req.sessionID);
       res.json({ success: true });
@@ -211,7 +195,7 @@ app.post('/logout', (req, res) => {
 
 
 
-// ****************
+
 //connection to routes
 const usersRouter = require("./routes/users.js");
 const aqiDataRouter = require("./routes/aqi.js");
