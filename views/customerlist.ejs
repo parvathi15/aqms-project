@@ -84,7 +84,7 @@ color: #ccc;"></i>
  
  async function fetchAndPopulateTable() {
       try {
-        const response = await axios.get('http://localhost:4000/users');
+        const response = await axios.get('https://aqms-project.onrender.com/users');
         const data = response.data;
         updateTable(data);
      // Add an event listener to the search input field
@@ -126,7 +126,7 @@ color: #ccc;"></i>
 async function deleteUser(userId) {
   console.log("Deleting user with ID:", userId);
   try {
-    await axios.delete(`http://localhost:4000/users/${userId}`);
+    await axios.delete(`https://aqms-project.onrender.com/users/${userId}`);
     console.log('User deleted successfully.');
     fetchAndPopulateTable(); 
   } catch (error) {
@@ -141,7 +141,7 @@ function editUser(userId) {
   console.log('Editing user with ID:', userId);
   currentUserId = userId;
 document.getElementById('editOverlay').style.display = 'flex';
-axios.get(`http://localhost:4000/users/${userId}`)
+axios.get(`https://aqms-project.onrender.com/users/${userId}`)
     .then(userData => {
       // saveEdit(userData.data);
       // console.log(userData);
@@ -166,7 +166,7 @@ axios.get(`http://localhost:4000/users/${userId}`)
   };
   console.log(updatedUserData)
   try {
-    await axios.put(`http://localhost:4000/users/update/${currentUserId}`, updatedUserData);
+    await axios.put(`https://aqms-project.onrender.com/users/update/${currentUserId}`, updatedUserData);
     console.log('User updated successfully.');
     fetchAndPopulateTable();
     document.getElementById('editOverlay').style.display = 'none';
