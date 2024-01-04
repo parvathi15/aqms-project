@@ -91,7 +91,7 @@
   
  async function fetchAndPopulateTable() {
   try {
-        const response = await axios.get('http://localhost:4000/aqiData');
+        const response = await axios.get('https://aqms-project.onrender.com/aqiData');
         const data = response.data;
         updateTable(data);
      // Add an event listener to the search input field
@@ -135,7 +135,7 @@
 async function deleteData(userId) {
   console.log("Deleting user with ID:", userId);
   try {
-    await axios.delete(`http://localhost:4000/aqiData/${userId}`);
+    await axios.delete(`https://aqms-project.onrender.com/aqiData/${userId}`);
     console.log('Data deleted successfully.');
     fetchAndPopulateTable(); 
   } catch (error) {
@@ -150,7 +150,7 @@ function editData(userId) {
   console.log('Editing data with ID:', userId);
   currentUserId = userId;
 document.getElementById('editOverlay').style.display = 'flex';
-axios.get(`http://localhost:4000/aqiData/${userId}`)
+axios.get(`https://aqms-project.onrender.com/aqiData/${userId}`)
     .then(userData => {
       // console.log(userData.data);
       // saveEdit(userData.data);
@@ -177,7 +177,7 @@ async function saveEdit() {
   };
 
   try {
-    const response = await axios.put(`http://localhost:4000/aqiData/update/${currentUserId}`, updatedAqiData);
+    const response = await axios.put(`https://aqms-project.onrender.com/aqiData/update/${currentUserId}`, updatedAqiData);
 
     console.log('Data updated successfully:', response.data);
     fetchAndPopulateTable();
